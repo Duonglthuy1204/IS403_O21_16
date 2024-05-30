@@ -387,8 +387,40 @@ Where:
 
 
 \subsection{LSTM}
+LSTM (Long short-term memory) is a type of recurrent neural network (RNN) that was introduced by Hochreiter and Schmid Huber in 1997. It was designed to overcome the limitations of traditional RNN models in capturing and remembering long-term dependencies in sequential data. \cite{LSTM}
 
-
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.8\linewidth}
+    \centering
+        \includegraphics[width=\linewidth]{images/LSTM.png}
+    \caption{The architecture of the LSTM model}
+    \label{fig9}
+    \end{minipage}
+\end{figure}
+In this model,
+\begin{itemize}
+    \item $\sigma(z)$ is the sigmoid function:
+    \[\sigma = \frac{1}{1 + e^{-x}}\]
+    \item tanh is the tanh activation function:
+    \[\tanh(x) = \frac{e^x - e^{-x}}{e^x + e^{-x}}\]
+\end{itemize}
+In state t:
+\begin{itemize}
+    \item $c_{t-1}$, $h_{t-1}$, $x_t$ : are the output of the previous layer
+    \item Output: $c_t$,$h_t$: c is cell state, h is hidden state
+\end{itemize}
+Gate mechanisms:
+\begin{itemize}
+    \item Forgot gate: $f_t = \sigma(U_f \cdot x_t + W_t \cdot h_{t-1} + b_f)$
+    \item Input gate: $i_t = \sigma(U_i \cdot x_t + W_i \cdot h_{t-1} + b_i)$
+    \item Output gate: $o_t = \sigma(U_o \cdot x_t + W_o \cdot h_{t-1} + b_o)$
+\end{itemize}
+In these formular: W and U refer to the weight matrices used in the computations of the LSTM cell. $b_f$ , $b_i$, $b_o$ are bias for the respective gates.
+The equations for the cell state, candidate cell state and the final ouput:
+\[\tilde{C}_t = \tanh(W_c \cdot x_t + U_c \cdot h_{t-1} + b_c)\]
+\[C_t = f_t \cdot C_{t-1} + i_t \cdot \tilde{C}_t\]
+\[h_t = o_t \cdot \tanh(C_t)\]
 
 \subsection{CNN-LSTM}
 CNN-LSTM (Convolutional Neural Network - Long Short-Term Memory) combines two important neural network architectures in the field of image and sequence data processing.
@@ -414,7 +446,7 @@ As the name implies, CNN-LSTM consists of 2 parts: CNN and LSTM. Specifically, C
     \centering
         \includegraphics[width=\linewidth]{images/CNNLSTM_Architechture.png}
     \caption{The architecture of the CNN-LSTM model}
-    \label{fig8}
+    \label{fig10}
     \end{minipage}
 \end{figure}
 
@@ -422,6 +454,49 @@ The CNN-LSTM architecture involves using Convolutional Neural Network (CNN) laye
 
 
 \subsection{MICN}
+The overall structure of MICN is shown in Figure 1. The long time series prediction task is to predict a future series of length O based on a past series of length I, which can be expressed as input (I), predict (O), where O is much larger than I. Inspired by traditional time series decomposition algorithms. We design a multi-scale hybrid decomposition (MHDecomp) block to separate complex patterns of input series. Then we use Seasonal Prediction Block to predict seasonal information and Trend-cyclical Prediction Block to predict trend-cyclical information. Then add the prediction results up to get the final prediction Ypred . We donate d as the number of variables in multivariate time series and D as the hidden state of the series. \cite{MICN}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.8\linewidth}
+    \centering
+        \includegraphics[width=\linewidth]{images/MICN.png}
+    \caption{The architecture of the GRU model}
+    \label{fig11}
+    \end{minipage}
+\end{figure}
+
+\subsubsection{MULTI-SCALE HYBRID DECOMPOSITION}
+Previous series decomposition algorithms (Wu et al., 2021b) adopt the moving average to smooth out periodic fluctuations and highlight the long-term trends. For the input series \(X \in \mathbb{R}^{I \times d}\), the process is:
+\[X_t = \text{AvgPool}(\text{Padding}(X))_{\text{kernel}}\]
+\[X_5 = X - X_t\]
+where: \(X_t\), \(X_s \in \mathbb{R}^{I \times d}\) denote the trend-cyclical and seasonal parts, respectively.
+
+We use simple mean operation to integrate these different patterns because we cannot determine the weight of each pattern before learning its features. Correspondingly, we put this weighting operation in the Merge part of Seasonal Prediction block after the representation of the features. Concretely, for the input series \(X \in \mathbb{R}^{I \times d}\), the process is:
+
+\[X_t = \text{mean}(\text{AvgPool}(\text{Padding}(X))_{\text{kernel}_1}, \ldots, \text{AvgPool}(\text{Padding}(X))_{\text{kernel}_n})\]
+\[X_5 = X - X_t\]
+where: \(X_t, X_s \in \mathbb{R}^{I \times d}\) denote the trend-cyclical and seasonal parts, respectively.
+
+\subsubsection{TREND-CYCLICAL PREDICTION BLOCK}
+Use a simple linear regression strategy to make a prediction about the trend-cyclical series \(X_t \in \mathbb{R}^{I \times d}\), demonstrating that simple modeling of trend-cyclical is also necessary for non-stationary series forecasting tasks. For the trend-cyclical series \(X_t\) obtained with the MHDecomp block, the process is:
+\[Y{\substack{\text{regre}\\t}}{} = regression(X_t)\]
+where \(Y_{\text{regre}t} \in \mathbb{R}^{O \times d}\) denotes the prediction of the trend part using the linear regression strategy. And use MICN-regre to represent the MICN model with this trend-cyclical prediction method.
+
+\subsubsection{SEASONAL PREDICTION BLOCK}
+After embedding the input sequence Xs, they adopt multi-scale isometric convolution to capture the local features and global correlations, and branches of different scales model different underlying patterns of the time series. They then merge the results from different branches to complete comprehensive information utilization of the sequence. It can be summarised as follows:
+\[X{\substack{\text{emb}\\s}}{} = {\text{Embedding}}(\text{Concat}(X_s, X_{\text{zero}}))\]
+\[Y{\substack{\text{0}\\s}}{} = X{\substack{\text{emb}\\s}}{}\]
+\[Y_{s,l} = \text{MIC}(Y_{s,l-1}), \quad l \in \{1, 2, \ldots, N\}\]
+\[Y_s = \text{Truncate}(\text{Projection}(Y_{s,N}))\]
+
+Where:
+\begin{itemize}
+    \item \(X_{\text{zero}} \in \mathbb{R}^{O \times d}\) denotes the placeholders filled with zeros
+    \item \(X_{\text{emb}}^s \in \mathbb{R}^{(I+O) \times D}\) denotes the embedded representation of \(X_s\)
+    \item \(Y_{s,l} \in \mathbb{R}^{(I+O) \times D}\) represents the output of the \(l\)-th multi-scale isometric convolution (MIC) layer
+    \item \(Y_s \in \mathbb{R}^{O \times d}\) represents the final prediction of the seasonal part after a linear function projection with \(Y_{s,N} \in \mathbb{R}^{(I+O) \times D}\) and a truncate operation.
+\end{itemize}
 
 
 \section{EXPERIMENCE}
