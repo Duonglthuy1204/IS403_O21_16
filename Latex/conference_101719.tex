@@ -126,67 +126,47 @@ Max & 54400 & 106500 & 28666.7 \\
 
 
 
-\begin{figure}[H]
-  \centering
-  \begin{minipage}{0.8\linewidth}
+\begin{minipage}{0.23\textwidth}
     \centering
-        \includegraphics[width=\linewidth]{images/bidv_boxplot.png}
-    \caption{Box Plot of BIDV stock price (2018 - 2024)}
-    \label{fig1}
-  \end{minipage}
-\end{figure}
+    \includegraphics[width=\linewidth]{images/bidv_boxplot.png}
+    \captionof{figure}{Box Plot of BIDV stock price (2018 - 2024)}
+    \label{fig:image1}
+\end{minipage}
+\hfill
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/bidv_histogram.png}
+    \captionof{figure}{Histogram of BIDV Stock Price (2018 - 2024)}
+    \label{fig:image2}
+\end{minipage}
 
-\begin{figure}[H]
+\begin{minipage}{0.23\textwidth}
     \centering
-    \begin{minipage}{0.8\linewidth}
+    \includegraphics[width=\linewidth]{images/vcb_boxplot.png}
+    \captionof{figure}{Box Plot of VCB Stock Price (2018 - 2024)}
+    \label{fig:image1}
+\end{minipage}
+\hfill
+\begin{minipage}{0.23\textwidth}
     \centering
-        \includegraphics[width=\linewidth]{images/bidv_histogram.png}
-    \caption{Histogram of BIDV Stock Price (2018 - 2024)}
-    \label{fig2}
-    \end{minipage}
-\end{figure}
+    \includegraphics[width=\linewidth]{images/vcb_histogram.png}
+    \captionof{figure}{Histogram of VCB Stock Price (2018 - 2024)}
+    \label{fig:image2}
+\end{minipage}
 
-
-\begin{figure}[H]
-  \centering
-  \begin{minipage}{0.8\linewidth}
+\begin{minipage}{0.23\textwidth}
     \centering
-        \includegraphics[width=\linewidth]{images/vcb_boxplot.png}
-    \caption{Box Plot of VCB Stock Price (2018 - 2024)}
-    \label{fig3}
-  \end{minipage}
-\end{figure}
-
-\begin{figure}[H]
+    \includegraphics[width=\linewidth]{images/mbb_boxplot.png}
+    \captionof{figure}{Box Plot of MB Bank Stock Price (2018 - 2024)}
+    \label{fig:image1}
+\end{minipage}
+\hfill
+\begin{minipage}{0.23\textwidth}
     \centering
-    \begin{minipage}{0.8\linewidth}
-    \centering
-        \includegraphics[width=\linewidth]{images/vcb_histogram.png}
-    \caption{Histogram of VCB Stock Price (2018 - 2024)}
-    \label{fig4}
-    \end{minipage}
-\end{figure}
-
-
-\begin{figure}[H]
-  \centering
-  \begin{minipage}{0.8\linewidth}
-    \centering
-        \includegraphics[width=\linewidth]{images/mbb_boxplot.png}
-    \caption{Box Plot of MB Bank Stock Price (2018 - 2024)}
-    \label{fig5}
-  \end{minipage}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
-    \begin{minipage}{0.8\linewidth}
-    \centering
-        \includegraphics[width=\linewidth]{images/mbb_histogram.png}
-    \caption{Histogram of VCB Stock Price (2018 - 2024)}
-    \label{fig6}
-    \end{minipage}
-\end{figure}
+    \includegraphics[width=\linewidth]{images/mbb_histogram.png}
+    \captionof{figure}{Histogram of MB Bank Stock Price (2018 - 2024)}
+    \label{fig:image2}
+\end{minipage}
 
 
 \section{METHODS}
@@ -498,9 +478,511 @@ Where:
     \item \(Y_s \in \mathbb{R}^{O \times d}\) represents the final prediction of the seasonal part after a linear function projection with \(Y_{s,N} \in \mathbb{R}^{(I+O) \times D}\) and a truncate operation.
 \end{itemize}
 
+\section{RESULT}
 
-\section{EXPERIMENCE}
-\subsection{MODEL SETTING}
+\subsection{EVALUATION METHODS}
+The Mean Percentage Absolute Error (MAPE) is a metric used to evaluate the accuracy of a forecasting model. It measures the average absolute percentage difference between the predicted values and the actual values. 
+\[\text{MAPE} = \frac{1}{n} \sum_{t=1}^{n} \left| \frac{y_i - \hat{y}_i}{y_i} \right| \times 100\%\]
+
+Root Mean Squared Error (RMSE): measures the average deviation of the predicted values from the actual values, considering the square of the errors. Lower RMSE values indicate better model performance, with zero indicating perfect predictions.
+\[\text{RMSE} = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2}\]
+
+Mean Absolute Error (MAE): measure the average absolute difference between the predicted values and the actual values. It provides a straightforward assessment of the model's accuracy, where lower values indicate better performance.
+\[\text{MAE} = \frac{1}{n} \sum_{i=1}^{n} |y_i - \hat{y}_i|\]
+
+Where:
+\begin{itemize}
+    \item \(n\): Number of observations
+    \item \(y_i\): Actual value of dependent variable for observation \(i\)
+    \item \(\hat{y}_i\): Predicted value of dependent variable for observation \(i\)
+\end{itemize}
+
+
+\subsection{EVALUATION}
+
+\begin{table}[h]
+\centering
+\caption{BIDV DATASET’S EVALUATION}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Model} & \textbf{Ratio} & \textbf{RMSE} & \textbf{MAE} & \textbf{MAPE (\%)} \\ \midrule
+\multirow{3}{*}{Linear} & 7:3 & 4163.263 & 3495.94 & 8.636 \\
+                        & 8:2 & 5320.862 & 4595.571 & 9.835 \\
+                        & \textbf{9:1} & \textbf{4152.676} & \textbf{3433.859} & \textbf{7.263} \\ \midrule
+\multirow{3}{*}{ARIMA} & 7:3 & 9678.42 & 8347.492 & 18.688 \\
+                        & 8:2 & 7109.504 & 6341.757 & 13.607 \\
+                        & \textbf{9:1} & \textbf{4192.145} & \textbf{3547.97} & \textbf{7.89} \\ \midrule
+\multirow{3}{*}{XGBoost} & 7:3 & 1792.35 & 1154.98 & 2.64 \\
+                        & 8:2 & 2027.27 & 1255.36 & 2.63 \\
+                        & \textbf{9:1} & \textbf{2301.83} & \textbf{1519.39} & \textbf{3.14} \\ \midrule
+\multirow{3}{*}{GRU} & 7:3 & 0.172 & 0.0199 & 20.053 \\
+                        & 8:2 & 0.133 & 0.016 & 13.828 \\
+                        & \textbf{9:1} & \textbf{0.108} & \textbf{0.02} & \textbf{9.992} \\ \midrule
+\multirow{3}{*}{RNN} & 7:3 & 0.169 & 0.0198 & 19.707 \\
+                        & 8:2 & 0.131 & 0.019 & 13.529 \\
+                        & \textbf{9:1} & \textbf{0.106} & \textbf{0.018} & \textbf{9.899} \\ \midrule
+\multirow{3}{*}{LSTM} & 7:3 & 0.175 & 0.029 & 20.213 \\
+                        & 8:2 & 0.135 & 0.02 & 14.252 \\
+                        & \textbf{9:1} & \textbf{0.106} & \textbf{0.019} & \textbf{9.917} \\ \midrule
+\multirow{3}{*}{CNN-LSTM} & 7:3 & 0.17 & 0.03 & 19.741 \\
+                        & 8:2 & 0.146 & 0.069 & 14.719 \\
+                        & \textbf{9:1} & \textbf{0.101} & \textbf{0.027} & \textbf{9.474} \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{VCB DATASET’S EVALUATION}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Model} & \textbf{Ratio} & \textbf{RMSE} & \textbf{MAE} & \textbf{MAPE (\%)} \\ \midrule
+\multirow{3}{*}{Linear} & 7:3 & 10516.514 & 9124.137 & 11.16 \\
+                        & 8:2 & 6513.819 & 5312.01 & 5.823 \\
+                        & \textbf{9:1} & \textbf{7900.247} & \textbf{7158.703} & \textbf{8.26} \\ \midrule
+\multirow{3}{*}{ARIMA} & 7:3 & 13425.949 & 11325.76 & 12.562 \\
+                        & 8:2 & 13349.47 & 12204.32 & 13.159 \\
+                        & \textbf{9:1} & \textbf{3863.947} & \textbf{3021.476} & \textbf{3.374} \\ \midrule
+\multirow{3}{*}{XGBoost} & 7:3 & 3466.83 & 2066.86 & 2.26 \\
+                        & 8:2 & 4145.83 & 2638.60 & 2.77 \\
+                        & \textbf{9:1} & \textbf{1426.46} & \textbf{1097.16} & \textbf{1.23} \\ \midrule
+\multirow{3}{*}{RNN} & 7:3 & 0.156 & 0.021 & 17.172 \\
+                        & 8:2 & 0.113 & 0.0197 & 11.126 \\
+                        & \textbf{9:1} & \textbf{0.064} & \textbf{0.019} & \textbf{6.397} \\ \midrule
+\multirow{3}{*}{LSTM} & 7:3 & 0.156 & 0.024 & 17.225 \\
+                        & 8:2 & 0.118 & 0.02 & 11.898 \\
+                        & \textbf{9:1} & \textbf{0.064} & \textbf{0.016} & \textbf{6.578} \\ \midrule
+\multirow{3}{*}{CNN-LSTM} & 7:3 & 0.157 & 0.035 & 17.251 \\
+                        & 8:2 & 0.104 & 0.036 & 10.197 \\
+                        & \textbf{9:1} & \textbf{0.059} & \textbf{0.021} & \textbf{6.119} \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[h]
+\centering
+\caption{MBB DATASET’S EVALUATION}
+\begin{tabular}{lcccc}
+\toprule
+\textbf{Model} & \textbf{Ratio} & \textbf{RMSE} & \textbf{MAE} & \textbf{MAPE (\%)} \\ \midrule
+\multirow{3}{*}{Linear} & 7:3 & 6699.874 & 6089.079 & 32.65 \\
+                        & 8:2 & 5730.287 & 5514.895 & 29.412 \\
+                        & \textbf{9:1} & \textbf{4114.666} & \textbf{3621.554} & \textbf{19.495} \\ \midrule
+\multirow{3}{*}{ARIMA} & 7:3 & 2958.645 & 2641.558 & 14.258 \\
+                        & 8:2 & 2476.036 & 1614.404 & 7.586 \\
+                        & \textbf{9:1} & \textbf{2647.877} & \textbf{1890.612} & \textbf{8.649} \\ \midrule
+\multirow{3}{*}{XGBoost} & 7:3 & 626.85 & 493.50 & 2.61 \\
+                        & 8:2 & 425.11 & 305.03 & 1.57 \\
+                        & \textbf{9:1} & \textbf{429.89} & \textbf{316.95} & \textbf{1.55} \\ \midrule
+\multirow{3}{*}{RNN} & 7:3 & 0.125 & 0.017 & 16.234 \\
+                        & 8:2 & 0.136 & 0.014 & 16.99 \\
+                        & \textbf{9:1} & \textbf{0.094} & \textbf{0.015} & \textbf{10.521} \\ \midrule
+\multirow{3}{*}{LSTM} & 7:3 & 0.129 & 0.02 & 16.865 \\
+                        & 8:2 & 0.137 & 0.014 & 17.237 \\
+                        & \textbf{9:1} & \textbf{0.096} & \textbf{0.015} & \textbf{10.714} \\ \midrule
+\multirow{3}{*}{CNN-LSTM} & 7:3 & 0.153 & 0.104 & 25.773 \\
+                        & 8:2 & 0.133 & 0.023 & 16.963 \\
+                        & \textbf{9:1} & \textbf{0.105} & \textbf{0.028} & \textbf{11.551} \\ \bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{VISUALIZATION}
+
+\subsubsection{BIDV DATASET VISUALIZATION}
+
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/LR/LinearRegression_BIDV_90days_82.png}
+    \captionof{figure}{Linear Regression with 8:2 ratio}
+    \label{fig:image1}
+\end{minipage}
+\hfill
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/LR/LinearRegression_BIDV_90days_91.png}
+    \captionof{figure}{Linear Regression with 9:1 ratio}
+    \label{fig:image2}
+\end{minipage}
+
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/ARIMA/ARIMA_BIDV_82.png}
+    \captionof{figure}{ARIMA with 8:2 ratio}
+    \label{fig:image1}
+\end{minipage}
+\hfill
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/ARIMA/ARIMA_BIDV_91.png}
+    \captionof{figure}{ARIMA with 9:1 ratio}
+    \label{fig:image2}
+\end{minipage}
+
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/XGBoost/XGBoost_BIDV_82.png}
+    \captionof{figure}{XGBoost with 8:2 ratio}
+    \label{fig:image1}
+\end{minipage}
+\hfill
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/XGBoost/XGBoost_BIDV_91.png}
+    \captionof{figure}{XGBoost with 9:1 ratio}
+    \label{fig:image2}
+\end{minipage}
+
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images}
+    \captionof{figure}{Linear Regression apply CalendarFourier, DeterministicProcess with 8:2 ratio}
+    \label{fig:image1}
+\end{minipage}
+\hfill
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images}
+    \captionof{figure}{Linear Regression apply CalendarFourier, DeterministicProcess with 9:1 ratio}
+    \label{fig:image2}
+\end{minipage}
+
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/GRU/GRU_BIDV_90days_82.png}
+    \captionof{figure}{GRU with 8:2 ratio}
+    \label{fig:image1}
+\end{minipage}
+\hfill
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/GRU/GRU_BIDV_90days_91.png}
+    \captionof{figure}{GRU with 9:1 ratio}
+    \label{fig:image2}
+\end{minipage}
+
+
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/RNN/RNN_BIDV_90days_82.png}
+    \captionof{figure}{RNN with 8:2 ratio}
+    \label{fig:image1}
+\end{minipage}
+\hfill
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/RNN/RNN_BIDV_90days_91.png}
+    \captionof{figure}{RNN with 9:1 ratio}
+    \label{fig:image2}
+\end{minipage}
+
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/LSTM/LSTM_BIDV_90days_82.png}
+    \captionof{figure}{LSTM with 8:2 ratio}
+    \label{fig:image1}
+\end{minipage}
+\hfill
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/LSTM/LSTM_BIDV_90days_91.png}
+    \captionof{figure}{LSTM with 9:1 ratio}
+    \label{fig:image2}
+\end{minipage}
+
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/CNN-LSTM/CNNLSTM_BIDV_90days_82.png}
+    \captionof{figure}{CNN-LSTM with 8:2 ratio}
+    \label{fig:image1}
+\end{minipage}
+\hfill
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/CNN-LSTM/CNNLSTM_BIDV_90days_91.png}
+    \captionof{figure}{CNN-LSTM with 9:1 ratio}
+    \label{fig:image2}
+\end{minipage}
+
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images}
+    \captionof{figure}{MICN with 8:2 ratio}
+    \label{fig:image1}
+\end{minipage}
+\hfill
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images}
+    \captionof{figure}{MICN with 9:1 ratio}
+    \label{fig:image2}
+\end{minipage}
+
+
+
+
+
+\subsubsection{VCB DATASET VISUALIZATION}
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/LR/LinearRegression_VCB_90days_82.png}
+    \captionof{figure}{Linear Regression with 8:2 ratio}
+    \label{fig:image1}
+\end{minipage}
+\hfill
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/LR/LinearRegression_VCB_90days_91.png}
+    \captionof{figure}{Linear Regression with 9:1 ratio}
+    \label{fig:image2}
+\end{minipage}
+
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/ARIMA/ARIMA_VCB_82.png}
+    \captionof{figure}{ARIMA with 8:2 ratio}
+    \label{fig:image1}
+\end{minipage}
+\hfill
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/ARIMA/ARIMA_VCB_91.png}
+    \captionof{figure}{ARIMA with 9:1 ratio}
+    \label{fig:image2}
+\end{minipage}
+
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/XGBoost/XGBoost_VCB_82.png}
+    \captionof{figure}{XGBoost with 8:2 ratio}
+    \label{fig:image1}
+\end{minipage}
+\hfill
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/XGBoost/XGBoost_VCB_91.png}
+    \captionof{figure}{XGBoost with 9:1 ratio}
+    \label{fig:image2}
+\end{minipage}
+
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images}
+    \captionof{figure}{Linear Regression apply CalendarFourier, DeterministicProcess with 8:2 ratio}
+    \label{fig:image1}
+\end{minipage}
+\hfill
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images}
+    \captionof{figure}{Linear Regression apply CalendarFourier, DeterministicProcess with 9:1 ratio}
+    \label{fig:image2}
+\end{minipage}
+
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/GRU/GRU_VCB_90days_82.png}
+    \captionof{figure}{GRU with 8:2 ratio}
+    \label{fig:image1}
+\end{minipage}
+\hfill
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/GRU/GRU_VCB_90days_91.png}
+    \captionof{figure}{GRU with 9:1 ratio}
+    \label{fig:image2}
+\end{minipage}
+
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/RNN/RNN_VCB_90days_82.png}
+    \captionof{figure}{RNN with 8:2 ratio}
+    \label{fig:image1}
+\end{minipage}
+\hfill
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/RNN/RNN_VCB_90days_91.png}
+    \captionof{figure}{RNN with 9:1 ratio}
+    \label{fig:image2}
+\end{minipage}
+
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/LSTM/LSTM_VCB_90days_82.png}
+    \captionof{figure}{LSTM with 8:2 ratio}
+    \label{fig:image1}
+\end{minipage}
+\hfill
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/LSTM/LSTM_VCB_90days_91.png}
+    \captionof{figure}{LSTM with 9:1 ratio}
+    \label{fig:image2}
+\end{minipage}
+
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/CNN-LSTM/CNNLSTM_VCB_90days_82.png}
+    \captionof{figure}{CNN-LSTM with 8:2 ratio}
+    \label{fig:image1}
+\end{minipage}
+\hfill
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/CNN-LSTM/CNNLSTM_VCB_90days_91.png}
+    \captionof{figure}{CNN-LSTM with 9:1 ratio}
+    \label{fig:image2}
+\end{minipage}
+
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images}
+    \captionof{figure}{MICN with 8:2 ratio}
+    \label{fig:image1}
+\end{minipage}
+\hfill
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images}
+    \captionof{figure}{MICN with 9:1 ratio}
+    \label{fig:image2}
+\end{minipage}
+
+
+
+
+
+\subsubsection{MBB DATASET VISUALIZATION}
+
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/LR/LinearRegression_MBB_90days_82.png}
+    \captionof{figure}{Linear Regression with 8:2 ratio}
+    \label{fig:image1}
+\end{minipage}
+\hfill
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/LR/LinearRegression_MBB_90days_91.png}
+    \captionof{figure}{Linear Regression with 9:1 ratio}
+    \label{fig:image2}
+\end{minipage}
+
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/ARIMA/ARIMA_MBB_82.png}
+    \captionof{figure}{ARIMA with 8:2 ratio}
+    \label{fig:image1}
+\end{minipage}
+\hfill
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/ARIMA/ARIMA_MBB_91.png}
+    \captionof{figure}{ARIMA with 9:1 ratio}
+    \label{fig:image2}
+\end{minipage}
+
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/XGBoost/XGBoost_MBB_82.png}
+    \captionof{figure}{XGBoost with 8:2 ratio}
+    \label{fig:image1}
+\end{minipage}
+\hfill
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/XGBoost/XGBoost_MBB_91.png}
+    \captionof{figure}{XGBoost with 9:1 ratio}
+    \label{fig:image2}
+\end{minipage}
+
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images}
+    \captionof{figure}{Linear Regression apply CalendarFourier, DeterministicProcess with 8:2 ratio}
+    \label{fig:image1}
+\end{minipage}
+\hfill
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images}
+    \captionof{figure}{Linear Regression apply CalendarFourier, DeterministicProcess with 9:1 ratio}
+    \label{fig:image2}
+\end{minipage}
+
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/GRU/GRU_MBB_90days_82.png}
+    \captionof{figure}{GRU with 8:2 ratio}
+    \label{fig:image1}
+\end{minipage}
+\hfill
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/GRU/GRU_MBB_90days_91.png}
+    \captionof{figure}{GRU with 9:1 ratio}
+    \label{fig:image2}
+\end{minipage}
+
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/RNN/RNN_MBB_90days_82.png}
+    \captionof{figure}{RNN with 8:2 ratio}
+    \label{fig:image1}
+\end{minipage}
+\hfill
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/RNN/RNN_MBB_90days_91.png}
+    \captionof{figure}{RNN with 9:1 ratio}
+    \label{fig:image2}
+\end{minipage}
+
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/LSTM/LSTM_MBB_90days_82.png}
+    \captionof{figure}{LSTM with 8:2 ratio}
+    \label{fig:image1}
+\end{minipage}
+\hfill
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/LSTM/LSTM_MBB_90days_91.png}
+    \captionof{figure}{LSTM with 9:1 ratio}
+    \label{fig:image2}
+\end{minipage}
+
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/CNN-LSTM/CNNLSTM_MBB_90days_82.png}
+    \captionof{figure}{CNN-LSTM with 8:2 ratio}
+    \label{fig:image1}
+\end{minipage}
+\hfill
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images/CNN-LSTM/CNNLSTM_MBB_90days_91.png}
+    \captionof{figure}{CNN-LSTM with 9:1 ratio}
+    \label{fig:image2}
+\end{minipage}
+
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images}
+    \captionof{figure}{MICN with 8:2 ratio}
+    \label{fig:image1}
+\end{minipage}
+\hfill
+\begin{minipage}{0.23\textwidth}
+    \centering
+    \includegraphics[width=\linewidth]{images}
+    \captionof{figure}{MICN with 9:1 ratio}
+    \label{fig:image2}
+\end{minipage}
+
+
+
+
+
+
 
 \section{REFERENCE}
 
