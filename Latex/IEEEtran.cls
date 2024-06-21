@@ -2610,7 +2610,7 @@
 \def\partname{Part}
 \def\appendixname{Appendix}
 \def\abstractname{Abstract}
-\def\IEEEkeywordsname{Index Terms}
+\def\IEEEkeywordsname{Từ khóa}
 \def\IEEEproofname{Proof}
 
 
